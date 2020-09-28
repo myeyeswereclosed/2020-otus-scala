@@ -12,9 +12,7 @@ object AppAuthor {
 
     def hasLastName(name: String): Boolean = lastName == name
 
-    val fullName: String = firstName.trim + " " + lastName.trim
-
-    val name: Name = Name(FirstName(firstName), LastName(lastName))
+    val fullName: Name = Name(FirstName(firstName), LastName(lastName))
   }
 
   case class FirstName(value: String)
