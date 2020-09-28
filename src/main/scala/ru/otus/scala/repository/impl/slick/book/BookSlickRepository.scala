@@ -3,8 +3,8 @@ package ru.otus.scala.repository.impl.slick.book
 import java.util.UUID
 
 import cats.syntax.option._
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
+import AppAuthor.Author
 import ru.otus.scala.repository.BookRepository
 import ru.otus.scala.repository.impl.slick.DbAction
 import ru.otus.scala.repository.impl.slick.DbAction.DbAction

@@ -4,11 +4,13 @@ import cats.effect.{Blocker, ContextShift, IO}
 import com.dimafeng.testcontainers.{ForAllTestContainer, PostgreSQLContainer}
 import doobie.Transactor
 import doobie.util.ExecutionContexts
-import ru.otus.scala.AppConfig.DbConfig
+import ru.otus.scala.config.AppConfig.DbConfig
 import ru.otus.scala.db.Migration
 import ru.otus.scala.repository.AuthorRepository
 import ru.otus.scala.repository.impl.doobie_quill.author.AuthorDoobieRepository
 import ru.otus.scala.repository.impl.doobie_quill.author.dao.AuthorDoobieDaoImpl
+import ru.otus.scala.repository.impl.doobie_quill.book.dao.BookDoobieDaoImpl
+import ru.otus.scala.repository.impl.doobie_quill.book.{BookDoobieDao, BookDoobieRepository}
 
 import scala.concurrent.ExecutionContext
 
@@ -22,7 +24,7 @@ class AuthorDoobieRepositoryTest
     new Migration(DbConfig(container.jdbcUrl, container.username, container.password)).run()
   }
 
-  def createRepository(): AuthorRepository = {
+  def createRepositories(): (AuthorDoobieRepository, BookDoobieRepository) = {
     implicit val ec: ExecutionContext = ExecutionContexts.synchronous
     implicit val cs: ContextShift[IO] = IO.contextShift(ec)
 
@@ -35,10 +37,13 @@ class AuthorDoobieRepositoryTest
         Blocker.liftExecutionContext(ExecutionContexts.synchronous) // just for testing
       )
 
-    val repository = new AuthorDoobieRepository(new AuthorDoobieDaoImpl, transactor)
+    val authorDao = new AuthorDoobieDaoImpl()
 
-    repository.deleteAll()
+    val repository = new AuthorDoobieRepository(authorDao, transactor)
+    val bookRepository = new BookDoobieRepository(new BookDoobieDaoImpl(), authorDao, transactor)
 
-    repository
+    bookRepository.deleteAllWithAuthors()
+
+    (repository, bookRepository)
   }
 }

@@ -2,11 +2,11 @@ package ru.otus.scala.repository.impl.slick.author.dao
 
 import java.util.UUID
 
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
 import ru.otus.scala.repository.dao.AuthorDao
 import ru.otus.scala.repository.impl.slick.DbAction
 import DbAction.DbAction
+import AppAuthor.Author
 import ru.otus.scala.repository.impl.{AuthorModel, BookAuthor}
 import slick.jdbc.PostgresProfile.api._
 

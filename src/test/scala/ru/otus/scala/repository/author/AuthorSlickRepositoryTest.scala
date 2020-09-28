@@ -3,7 +3,7 @@ package ru.otus.scala.repository.author
 import cats.effect.{Blocker, ContextShift, IO}
 import com.dimafeng.testcontainers.{ForAllTestContainer, PostgreSQLContainer}
 import doobie.util.ExecutionContexts
-import ru.otus.scala.AppConfig.DbConfig
+import ru.otus.scala.config.AppConfig.DbConfig
 import ru.otus.scala.db.Migration
 import ru.otus.scala.repository.AuthorRepository
 import ru.otus.scala.repository.impl.doobie_quill.author.AuthorDoobieRepository
@@ -35,12 +35,17 @@ class AuthorSlickRepositoryTest
     super.beforeStop()
   }
 
-  def createRepository(): AuthorRepository = {
+  def createRepositories(): (AuthorSlickRepository, BookSlickRepository) = {
     implicit val ec: ExecutionContext = ExecutionContexts.synchronous
 
-    val repository = new AuthorSlickRepository(new AuthorSlickDao(), db)
-    repository.deleteAll().futureValue
-    repository
+    val dao = new AuthorSlickDao()
+
+    val repository = new AuthorSlickRepository(dao, db)
+
+    val bookRepository = new BookSlickRepository(new BookSlickDao(), dao, db)
+    bookRepository.deleteAllWithAuthors()
+
+    (repository, bookRepository)
   }
 
 }

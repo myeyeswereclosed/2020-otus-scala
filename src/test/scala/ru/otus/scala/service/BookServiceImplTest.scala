@@ -22,8 +22,8 @@ import ru.otus.scala.model.UpdateBook.{UpdateBookRequest, UpdateBookResponse}
 import ru.otus.scala.model.DeleteBook.DeleteBookResponse
 import ru.otus.scala.model.UpdateBook.UpdateBookResponse
 import ru.otus.scala.model.UpdateBook.UpdateBookResponse.CantUpdateBookWithoutId
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor.Author
+import ru.otus.scala.model.domain.{AppAuthor, AppBook}
 import ru.otus.scala.repository.{AuthorRepository, BookRepository}
 import ru.otus.scala.service.book.BookServiceImpl
 

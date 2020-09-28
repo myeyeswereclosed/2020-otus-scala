@@ -1,7 +1,7 @@
 package ru.otus.scala.service.comment
 
 import ru.otus.scala.model.CreateComment.{BookNotFound, CommentCreated, CreateCommentRequest, CreateCommentResponse}
-import ru.otus.scala.model.domain.BookComment
+import ru.otus.scala.model.domain.BookComment.BookComment
 import ru.otus.scala.repository.{BookRepository, CommentRepository}
 
 import scala.concurrent.{ExecutionContext, Future}

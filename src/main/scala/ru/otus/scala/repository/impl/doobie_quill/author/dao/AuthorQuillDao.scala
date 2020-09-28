@@ -6,8 +6,8 @@ import cats.syntax.applicative._
 import doobie.free.connection.ConnectionIO
 import doobie.quill.DoobieContext
 import io.getquill.SnakeCase
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
+import AppAuthor.Author
 import ru.otus.scala.repository.impl
 import ru.otus.scala.repository.impl.doobie_quill.author.AuthorDoobieDao
 import ru.otus.scala.repository.impl.{AuthorModel, Book, BookAuthor}
@@ -61,7 +61,7 @@ class AuthorQuillDao extends AuthorDoobieDao {
     run {
       quote {
         liftQuery(
-          authors.map(author => impl.BookAuthor(bookId, author.id.get))
+          authors.map(author => BookAuthor(bookId, author.id.get))
         ).foreach(bookAuthor => bookAuthorTable.insert(bookAuthor))
       }
     }.map(_.size)
@@ -124,7 +124,17 @@ class AuthorQuillDao extends AuthorDoobieDao {
       }
     }.map(_.intValue)
 
-  def findAllPublishedIn(year: Index): ConnectionIO[Seq[Author]] = ???
+  def findAllPublishedIn(year: Index): ConnectionIO[Seq[Author]] =
+    run {
+      quote {
+        authorTable
+          .join(bookAuthorTable).on(_.id == _.authorId)
+          .join(bookTable).on(_._2.bookId == _.id)
+          .filter{
+            case ((author, bookAuthor), book) => book.yearOfPublishing.contains(lift(year))
+          }
+      }
+    }.map(_.map(_._1._1.toAuthor))
 
   def publishedIn(year: Int): ConnectionIO[Seq[Author]] =
     run {

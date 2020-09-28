@@ -3,8 +3,10 @@ package ru.otus.scala.model.domain
 import java.time.LocalDateTime
 import java.util.UUID
 
-case class CommentText(text: String)
+object BookComment {
 
-case class BookComment(id: Option[UUID], text: String, book: AppBook, madeAt: LocalDateTime = LocalDateTime.now())
+  case class CommentText(text: String)
 
+  case class BookComment(id: Option[UUID], text: String, book: AppBook, madeAt: LocalDateTime = LocalDateTime.now())
 
+}

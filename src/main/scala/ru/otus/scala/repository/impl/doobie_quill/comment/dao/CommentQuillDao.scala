@@ -6,6 +6,7 @@ import doobie.ConnectionIO
 import doobie.quill.DoobieContext
 import io.getquill.SnakeCase
 import ru.otus.scala.model.domain.BookComment
+import ru.otus.scala.model.domain.BookComment.BookComment
 import ru.otus.scala.repository.impl
 import ru.otus.scala.repository.impl.Comment
 import ru.otus.scala.repository.impl.doobie_quill.comment.CommentDoobieDao

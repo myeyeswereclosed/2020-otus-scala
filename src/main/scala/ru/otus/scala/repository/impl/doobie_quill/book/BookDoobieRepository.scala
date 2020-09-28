@@ -11,8 +11,8 @@ import cats.syntax.traverse._
 import doobie.free.connection.ConnectionIO
 import doobie.syntax.connectionio._
 import doobie.util.transactor.Transactor
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
+import AppAuthor.Author
 import ru.otus.scala.repository.BookRepository
 import ru.otus.scala.repository.impl.doobie_quill.author.AuthorDoobieDao
 
@@ -26,16 +26,18 @@ class BookDoobieRepository(
   def create(book: AppBook): Future[AppBook] = {
     val queries =
       for {
-        existingAuthors <- findAllWithFirstAndLastNames(book.authors)
+        storedAuthors <- findAllWithFirstAndLastNames(book.authors)
         bookId <- bookDao.save(book)
         bookCreated = book.copy(id = Some(bookId))
         authors <-
           authorDao.addBookAuthors(
             bookCreated,
-            book.authors.filterNot(author => existingAuthors.map(_.name).contains(author.name))
+            book
+              .authors
+              .filterNot(author => storedAuthors.exists(_.hasFirstAndLastName(author.firstName, author.lastName)))
           )
-        _ <- authorDao.bindAuthorsToBook(existingAuthors, bookId)
-      } yield bookCreated.copy(authors = existingAuthors ++ authors)
+        _ <- authorDao.bindAuthorsToBook(storedAuthors, bookId)
+      } yield bookCreated.copy(authors = storedAuthors ++ authors)
 
     queries.transact(transactor).unsafeToFuture()
   }

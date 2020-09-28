@@ -20,9 +20,8 @@ import ru.otus.scala.model.AddBookAuthor.AddAuthorResponse
 import ru.otus.scala.model.DeleteBook.{DeleteBookRequest, DeleteBookResponse}
 import ru.otus.scala.model.GetBook.GetBookRequest
 import ru.otus.scala.model.UpdateBook.UpdateBookResponse.CantUpdateBookWithoutId
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
-import ru.otus.scala.route.Router
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
+import AppAuthor.Author
 import ru.otus.scala.service.book.BookService
 
 class BookRouter(service: BookService) extends Router {

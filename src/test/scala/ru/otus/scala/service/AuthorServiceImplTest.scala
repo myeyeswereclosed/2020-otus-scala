@@ -7,8 +7,9 @@ import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers._
 import ru.otus.scala.model.AuthorsByYearOfPublishing.{AuthorsByYearOfPublishingRequest, AuthorsByYearOfPublishingResponse}
-import ru.otus.scala.model.domain.author.Author
-import ru.otus.scala.repository.{BookRepository, CommentRepository}
+import ru.otus.scala.model.domain.AppAuthor
+import ru.otus.scala.model.domain.AppAuthor.Author
+import ru.otus.scala.repository.{AuthorRepository, BookRepository, CommentRepository}
 import ru.otus.scala.service.author.AuthorServiceImpl
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -22,12 +23,12 @@ class AuthorServiceImplTest extends AnyFreeSpec with MockFactory with ScalaFutur
 
       val author = Author(Some(UUID.randomUUID()), "Some", "Author")
 
-      val bookDao = mock[BookRepository]
-      val commentDao = stub[CommentRepository]
+      val authorRepository = mock[AuthorRepository]
+      val commentRepository = stub[CommentRepository]
 
-      (bookDao.findAuthorsPublishedIn _).expects(year).returns(Future.successful(Seq(author)))
+      (authorRepository.findPublishedIn _).expects(year).returns(Future.successful(Seq(author)))
 
-      val service = new AuthorServiceImpl(bookDao, commentDao)
+      val service = new AuthorServiceImpl(authorRepository, commentRepository)
 
       service.getAllPublishedIn(AuthorsByYearOfPublishingRequest(year)).futureValue shouldBe
         AuthorsByYearOfPublishingResponse(Seq(author))
@@ -38,12 +39,12 @@ class AuthorServiceImplTest extends AnyFreeSpec with MockFactory with ScalaFutur
 
       val author = Author(Some(UUID.randomUUID()), "Some", "Author")
 
-      val bookDao = stub[BookRepository]
-      val commentDao = mock[CommentRepository]
+      val authorRepository = stub[AuthorRepository]
+      val commentRepository = mock[CommentRepository]
 
-      (commentDao.findAuthorsCommentedMoreThan _).expects(commentsNumber).returns(Seq(author))
+      (commentRepository.findAuthorsCommentedMoreThan _).expects(commentsNumber).returns(Seq(author))
 
-      val service = new AuthorServiceImpl(bookDao, commentDao)
+      val service = new AuthorServiceImpl(authorRepository, commentRepository)
 
       service.getAllCommentedMoreThan(commentsNumber) shouldBe Seq(author)
     }

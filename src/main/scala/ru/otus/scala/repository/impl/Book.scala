@@ -3,7 +3,7 @@ package ru.otus.scala.repository.impl
 import java.util.UUID
 
 import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor.Author
 
 case class Book(
   id: UUID,

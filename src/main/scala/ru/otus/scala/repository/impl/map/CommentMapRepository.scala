@@ -2,8 +2,9 @@ package ru.otus.scala.repository.impl.map
 
 import java.util.UUID
 
-import ru.otus.scala.model.domain.BookComment
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppAuthor, BookComment}
+import AppAuthor.Author
+import ru.otus.scala.model.domain.BookComment.BookComment
 import ru.otus.scala.repository.CommentRepository
 
 import scala.concurrent.Future

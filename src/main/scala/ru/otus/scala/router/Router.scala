@@ -1,4 +1,4 @@
-package ru.otus.scala.route
+package ru.otus.scala.router
 
 import akka.http.scaladsl.server.Route
 

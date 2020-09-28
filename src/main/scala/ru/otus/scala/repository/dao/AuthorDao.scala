@@ -3,7 +3,7 @@ package ru.otus.scala.repository.dao
 import java.util.UUID
 
 import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor.Author
 
 trait AuthorDao[F[_]] {
   def create(author: Author): F[UUID]

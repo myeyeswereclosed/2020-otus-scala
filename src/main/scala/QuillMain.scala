@@ -5,20 +5,15 @@ import cats.implicits._
 import doobie._
 import doobie.hikari._
 import doobie.util.transactor.Transactor
-import ru.otus.scala.AppConfig.{Config, ServerConfig}
+import ru.otus.scala.config.AppConfig.{Config, ServerConfig}
 import ru.otus.scala.db.Migration
-import ru.otus.scala.greet.dao.impl.GreetingDaoImpl
-import ru.otus.scala.greet.router.GreetRouter
-import ru.otus.scala.greet.service.impl.GreetingServiceImpl
-import ru.otus.scala.repository.impl.doobie_quill.author.dao.{AuthorDoobieDaoImpl, AuthorQuillDao}
-import ru.otus.scala.repository.impl.doobie_quill.book.dao.{BookDoobieDaoImpl, BookQuillDao}
-import ru.otus.scala.repository.impl.doobie_quill.comment.dao.{CommentDoobieDaoImpl, CommentQuillDao}
 import ru.otus.scala.repository.impl.doobie_quill.author.AuthorDoobieRepository
+import ru.otus.scala.repository.impl.doobie_quill.author.dao.AuthorQuillDao
 import ru.otus.scala.repository.impl.doobie_quill.book.BookDoobieRepository
+import ru.otus.scala.repository.impl.doobie_quill.book.dao.BookQuillDao
 import ru.otus.scala.repository.impl.doobie_quill.comment.CommentDoobieRepository
-import ru.otus.scala.repository.impl.map.AuthorMapRepository
-import ru.otus.scala.route.{Router, RouterImpl}
-import ru.otus.scala.router.{AuthorRouter, BookRouter, CommentRouter}
+import ru.otus.scala.repository.impl.doobie_quill.comment.dao.CommentQuillDao
+import ru.otus.scala.router._
 import ru.otus.scala.service.author.AuthorServiceImpl
 import ru.otus.scala.service.book.BookServiceImpl
 import ru.otus.scala.service.comment.CommentServiceImpl
@@ -66,7 +61,7 @@ object QuillMain {
 
   def makeBinding(
     config:ServerConfig,
-    tr: Transactor[IO]
+    transactor: Transactor[IO]
   )(implicit system: ActorSystem): Resource[IO, Http.ServerBinding] = {
     Resource
       .make(
@@ -74,7 +69,7 @@ object QuillMain {
           IO(
             Http()(system)
               .newServerAt(config.host, config.port)
-              .bind(createRouter(tr)(system.dispatcher).route)
+              .bind(createRouter(transactor)(system.dispatcher).route)
           )
         )
       )(b => IO.fromFuture(IO(b.unbind())).map(_ => ()))
@@ -87,10 +82,9 @@ object QuillMain {
 
     val bookRouter = new BookRouter(new BookServiceImpl(bookRepository, authorRepository))
     val commentRouter = new CommentRouter(new CommentServiceImpl(bookRepository, commentRepository))
-    val authorRouter = new AuthorRouter(new AuthorServiceImpl(bookRepository, commentRepository))
-    val greetRouter = new GreetRouter(new GreetingServiceImpl(new GreetingDaoImpl))
+    val authorRouter = new AuthorRouter(new AuthorServiceImpl(authorRepository, commentRepository))
 
-    new RouterImpl(Seq(bookRouter, authorRouter, commentRouter, greetRouter))
+    new AppRouter(Seq(bookRouter, authorRouter, commentRouter))
   }
 
 }

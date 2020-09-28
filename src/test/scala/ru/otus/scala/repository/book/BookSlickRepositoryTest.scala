@@ -2,7 +2,7 @@ package ru.otus.scala.repository.book
 
 import com.dimafeng.testcontainers.{ForAllTestContainer, PostgreSQLContainer}
 import doobie.util.ExecutionContexts
-import ru.otus.scala.AppConfig.DbConfig
+import ru.otus.scala.config.AppConfig.DbConfig
 import ru.otus.scala.db.Migration
 import ru.otus.scala.repository.BookRepository
 import ru.otus.scala.repository.impl.slick.author.dao.AuthorSlickDao

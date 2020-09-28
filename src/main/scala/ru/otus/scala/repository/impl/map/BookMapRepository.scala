@@ -2,8 +2,8 @@ package ru.otus.scala.repository.impl.map
 
 import java.util.UUID
 
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
+import AppAuthor.Author
 import ru.otus.scala.repository.BookRepository
 
 import scala.concurrent.Future
@@ -59,7 +59,7 @@ class BookMapRepository extends BookRepository {
         .toSeq
     )
 
-  def findAuthorsPublishedIn(year: Int): Future[Seq[Author]] =
+  private[map] def findAuthorsPublishedIn(year: Int): Future[Seq[Author]] =
     Future.successful(
       books
         .values
@@ -77,7 +77,7 @@ class BookMapRepository extends BookRepository {
         .toSeq
     )
 
-  def findAuthorsWithBooksPagesLessThan(pages: Int, amongAuthors: Set[Author]): Future[Seq[Author]] =
+  private[map] def findAuthorsWithBooksPagesLessThan(pages: Int, amongAuthors: Set[Author]): Future[Seq[Author]] =
     Future.successful(
       books
         .values

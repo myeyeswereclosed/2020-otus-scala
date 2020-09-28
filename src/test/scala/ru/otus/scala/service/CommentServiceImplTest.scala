@@ -3,11 +3,12 @@ package ru.otus.scala.service
 import java.util.UUID
 
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.concurrent.{Futures, ScalaFutures}
+import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers._
 import ru.otus.scala.model.CreateComment.{BookNotFound, CommentCreated, CreateCommentRequest}
-import ru.otus.scala.model.domain.{AppBook, BookComment}
+import ru.otus.scala.model.domain.BookComment.BookComment
+import ru.otus.scala.model.domain.AppBook
 import ru.otus.scala.repository.{BookRepository, CommentRepository}
 import ru.otus.scala.service.comment.CommentServiceImpl
 

@@ -2,7 +2,7 @@ package ru.otus.scala.model.domain
 
 import java.util.UUID
 
-import ru.otus.scala.model.domain.author.Author
+import AppAuthor.Author
 
 case class AppBook(
                  id: Option[UUID],

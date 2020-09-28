@@ -1,7 +1,8 @@
 package ru.otus.scala.service.author
 
 import ru.otus.scala.model.AuthorsByYearOfPublishing.{AuthorsByYearOfPublishingRequest, AuthorsByYearOfPublishingResponse}
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor
+import AppAuthor.Author
 
 import scala.concurrent.Future
 

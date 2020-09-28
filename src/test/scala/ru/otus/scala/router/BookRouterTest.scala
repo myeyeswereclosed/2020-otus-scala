@@ -20,8 +20,8 @@ import ru.otus.scala.model.GetBook.GetBookRequest
 import ru.otus.scala.model.GetBook.GetBookResponse.BookFound
 import ru.otus.scala.model.UpdateBook.UpdateBookRequest
 import ru.otus.scala.model.UpdateBook.UpdateBookResponse.BookUpdated
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor.Author
+import ru.otus.scala.model.domain.{AppAuthor, AppBook}
 import ru.otus.scala.service.book.BookService
 
 import scala.concurrent.{ExecutionContext, Future}

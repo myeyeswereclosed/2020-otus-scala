@@ -1,7 +1,8 @@
 package ru.otus.scala.repository
 
 import ru.otus.scala.model.domain.BookComment
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor.Author
+import ru.otus.scala.model.domain.BookComment.BookComment
 
 import scala.concurrent.Future
 

@@ -7,7 +7,7 @@ import doobie.implicits._
 import doobie.implicits.javasql._
 import doobie.implicits.javatime._
 import doobie.postgres.implicits._
-import ru.otus.scala.model.domain.BookComment
+import ru.otus.scala.model.domain.BookComment.BookComment
 import ru.otus.scala.repository.impl.doobie_quill.comment.CommentDoobieDao
 
 class CommentDoobieDaoImpl extends CommentDoobieDao {

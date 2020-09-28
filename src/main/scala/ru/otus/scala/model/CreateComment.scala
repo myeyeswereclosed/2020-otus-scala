@@ -3,6 +3,7 @@ package ru.otus.scala.model
 import java.util.UUID
 
 import ru.otus.scala.model.domain.BookComment
+import ru.otus.scala.model.domain.BookComment.BookComment
 
 object CreateComment {
   case class CreateCommentRequest(bookId: UUID, text: String)

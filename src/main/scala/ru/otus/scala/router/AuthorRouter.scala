@@ -5,8 +5,8 @@ import akka.http.scaladsl.server.Route
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport._
 import play.api.libs.json.{Json, OFormat}
 import ru.otus.scala.model.AuthorsByYearOfPublishing.AuthorsByYearOfPublishingRequest
-import ru.otus.scala.model.domain.author.Author
-import ru.otus.scala.route.Router
+import ru.otus.scala.model.domain.AppAuthor
+import AppAuthor.Author
 import ru.otus.scala.service.author.AuthorService
 
 class AuthorRouter(service: AuthorService) extends Router {

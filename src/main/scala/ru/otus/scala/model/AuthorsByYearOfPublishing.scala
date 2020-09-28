@@ -1,6 +1,7 @@
 package ru.otus.scala.model
 
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor
+import AppAuthor.Author
 
 object AuthorsByYearOfPublishing {
   case class AuthorsByYearOfPublishingRequest(year: Int)

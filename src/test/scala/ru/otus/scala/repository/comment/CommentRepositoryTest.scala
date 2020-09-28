@@ -9,8 +9,9 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers.{be, _}
 import org.scalatest.time.{Seconds, Span}
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
-import ru.otus.scala.model.domain.{AppBook, BookComment}
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor.Author
+import ru.otus.scala.model.domain.BookComment.BookComment
+import ru.otus.scala.model.domain.AppBook
 import ru.otus.scala.repository.{BookRepository, CommentRepository}
 
 abstract class CommentRepositoryTest(name: String)
@@ -24,7 +25,7 @@ abstract class CommentRepositoryTest(name: String)
 
   implicit val genBook: Gen[AppBook] = for {
     id <- Gen.option(Gen.uuid)
-    title <- arbitrary[String]
+    title <- Gen.uuid.map(_.toString + "_TITLE")
     firstName <- Gen.uuid.map(_.toString + "_FirstName")
     lastName <- Gen.uuid.map(_.toString + "_LastName")
     pagesNumber <- Gen.chooseNum(minPagesNumber, maxPagesNumber)

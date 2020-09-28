@@ -3,8 +3,8 @@ package ru.otus.scala.repository.impl.doobie_quill.author
 import java.util.UUID
 
 import doobie.free.connection.ConnectionIO
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
+import AppAuthor.Author
 import ru.otus.scala.repository.dao.AuthorDao
 
 trait AuthorDoobieDao extends AuthorDao[ConnectionIO] {

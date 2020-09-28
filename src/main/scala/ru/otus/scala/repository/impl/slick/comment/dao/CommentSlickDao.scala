@@ -3,6 +3,7 @@ package ru.otus.scala.repository.impl.slick.comment.dao
 import java.util.UUID
 
 import ru.otus.scala.model.domain.BookComment
+import ru.otus.scala.model.domain.BookComment.BookComment
 import ru.otus.scala.repository.dao.CommentDao
 import ru.otus.scala.repository.impl.Comment
 import ru.otus.scala.repository.impl.slick.DbAction.DbAction

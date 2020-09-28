@@ -1,4 +1,4 @@
-package ru.otus.scala
+package ru.otus.scala.config
 
 object AppConfig {
   case class Config(db: DbConfig, server: ServerConfig)

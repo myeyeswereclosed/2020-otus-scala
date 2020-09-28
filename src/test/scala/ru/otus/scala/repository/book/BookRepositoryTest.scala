@@ -1,14 +1,7 @@
 package ru.otus.scala.repository.book
 
-import java.lang.StackWalker.Option
 import java.util.UUID
 
-import org.scalacheck.Arbitrary._
-import org.scalacheck.{Arbitrary, Gen}
-import org.scalatest.freespec.AnyFreeSpec
-import org.scalatest.matchers.should.Matchers._
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
-import org.scalatest.concurrent.ScalaFutures
 import org.scalacheck.Arbitrary._
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.concurrent.ScalaFutures
@@ -16,8 +9,8 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers._
 import org.scalatest.time.{Seconds, Span}
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
 import ru.otus.scala.repository.BookRepository
 
 /**
@@ -214,25 +207,6 @@ abstract class BookRepositoryTest(name: String)
       }
     }
 
-    "findAuthorsPublishedIn" in {
-      forAll { (books1: Seq[AppBook], yearOfPublishing: Year, books2: Seq[AppBook]) =>
-        val repository = createRepository()
-
-        val writtenInAnotherYear =
-          books1.filter(_.yearOfPublishing.isEmpty) ++
-            books1.filterNot(_.yearOfPublishing.exists(_ == yearOfPublishing.value))
-
-        val writtenInExpectedYear = books2.map(_.copy(yearOfPublishing = Some(yearOfPublishing.value)))
-
-        setupBooks(writtenInAnotherYear, repository)
-
-        val booksWrittenInExpectedYear = setupBooks(writtenInExpectedYear, repository)
-        val expectedAuthors = booksWrittenInExpectedYear.flatMap(_.authors).toSet
-
-        repository.findAuthorsPublishedIn(yearOfPublishing.value).futureValue.toSet shouldBe expectedAuthors
-      }
-    }
-
     "findBooksWithPagesNumberGreaterThan" in {
       forAll { (books1: Seq[AppBook], pages: Pages, books2: Seq[AppBook]) =>
         val repository = createRepository()
@@ -245,30 +219,6 @@ abstract class BookRepositoryTest(name: String)
         val booksWithPagesNumberGreaterThanExpected = setupBooks(withPagesNumberGreaterThanExpected, repository).toSet
 
         repository.findAllWithPagesNumberGreaterThan(pages.value).futureValue.toSet shouldBe booksWithPagesNumberGreaterThanExpected
-      }
-    }
-
-    "findAuthorsWithBooksPagesLessThan" in {
-      forAll { (books: Seq[AppBook]) =>
-        if (books.nonEmpty) {
-          val repository = createRepository()
-
-          val pagesExpected = books.map(_.pagesNumber).sum / books.size
-
-          val withPagesNumberLessThanExpected = books.filter(_.pagesNumber < pagesExpected)
-          val withPagesNumberEqualToOrGreaterThanExpected = books.filter(_.pagesNumber >= pagesExpected)
-
-          val nonExpectedAuthors =
-            setupBooks(withPagesNumberEqualToOrGreaterThanExpected, repository).flatMap(_.authors).toSet
-
-          val expectedAuthors = setupBooks(withPagesNumberLessThanExpected, repository).flatMap(_.authors).toSet
-
-          repository
-            .findAuthorsWithBooksPagesLessThan(
-              pagesExpected,
-              nonExpectedAuthors ++ expectedAuthors
-            ).futureValue.toSet shouldBe expectedAuthors
-        }
       }
     }
 

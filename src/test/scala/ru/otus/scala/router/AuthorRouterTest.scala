@@ -10,7 +10,8 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers._
 import play.api.libs.json.{Json, OFormat}
 import ru.otus.scala.model.AuthorsByYearOfPublishing.{AuthorsByYearOfPublishingRequest, AuthorsByYearOfPublishingResponse}
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor
+import ru.otus.scala.model.domain.AppAuthor.Author
 import ru.otus.scala.service.author.AuthorService
 
 import scala.concurrent.Future

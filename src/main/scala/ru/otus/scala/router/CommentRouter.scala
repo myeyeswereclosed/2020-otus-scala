@@ -6,9 +6,9 @@ import akka.http.scaladsl.server.Route
 import de.heikoseeberger.akkahttpplayjson.PlayJsonSupport._
 import play.api.libs.json.{Json, OFormat}
 import ru.otus.scala.model.CreateComment.{BookNotFound, CommentCreated, CreateCommentRequest}
-import ru.otus.scala.model.domain.{AppBook, BookComment, CommentText}
-import ru.otus.scala.model.domain.author.Author
-import ru.otus.scala.route.Router
+import ru.otus.scala.model.domain.{AppAuthor, AppBook}
+import AppAuthor.Author
+import ru.otus.scala.model.domain.BookComment.{BookComment, CommentText}
 import ru.otus.scala.service.comment.CommentService
 
 class CommentRouter(service: CommentService) extends Router {

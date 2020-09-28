@@ -4,8 +4,9 @@ import cats.effect.IO
 import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.util.transactor.Transactor
-import ru.otus.scala.model.domain.BookComment
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.AppAuthor
+import AppAuthor.Author
+import ru.otus.scala.model.domain.BookComment.BookComment
 import ru.otus.scala.repository.CommentRepository
 import ru.otus.scala.repository.dao.CommentDao
 

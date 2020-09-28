@@ -4,7 +4,7 @@ import cats.effect.{Blocker, ContextShift, IO}
 import com.dimafeng.testcontainers.{Container, ForAllTestContainer, PostgreSQLContainer}
 import doobie.Transactor
 import doobie.util.ExecutionContexts
-import ru.otus.scala.AppConfig.DbConfig
+import ru.otus.scala.config.AppConfig.DbConfig
 import ru.otus.scala.db.Migration
 import ru.otus.scala.repository.BookRepository
 import ru.otus.scala.repository.impl.doobie_quill.author.dao.AuthorQuillDao

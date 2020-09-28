@@ -6,7 +6,7 @@ import com.dimafeng.testcontainers.{ForAllTestContainer, PostgreSQLContainer}
 import doobie._
 import doobie.util.ExecutionContexts
 import doobie.util.transactor.Transactor.Aux
-import ru.otus.scala.AppConfig.{Config, DbConfig}
+import ru.otus.scala.config.AppConfig.{Config, DbConfig}
 import ru.otus.scala.db.Migration
 import cats.syntax.traverse._
 import cats.syntax.applicative._

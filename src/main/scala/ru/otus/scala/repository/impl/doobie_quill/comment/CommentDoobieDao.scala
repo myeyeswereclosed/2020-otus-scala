@@ -3,7 +3,7 @@ package ru.otus.scala.repository.impl.doobie_quill.comment
 import java.util.UUID
 
 import doobie.free.connection.ConnectionIO
-import ru.otus.scala.model.domain.BookComment
+import ru.otus.scala.model.domain.BookComment.BookComment
 import ru.otus.scala.repository.dao.CommentDao
 
 trait CommentDoobieDao extends CommentDao[ConnectionIO] {

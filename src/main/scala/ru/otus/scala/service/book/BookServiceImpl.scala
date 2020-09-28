@@ -22,8 +22,8 @@ import ru.otus.scala.model.GetBook.GetBookResponse.BookFound
 import ru.otus.scala.model.GetBook.{GetBookRequest, GetBookResponse}
 import ru.otus.scala.model.UpdateBook.UpdateBookResponse.CantUpdateBookWithoutId
 import ru.otus.scala.model.UpdateBook.{UpdateBookRequest, UpdateBookResponse}
-import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.Author
+import ru.otus.scala.model.domain.{AppBook, AppAuthor}
+import AppAuthor.Author
 import ru.otus.scala.repository.{AuthorRepository, BookRepository}
 
 import scala.concurrent.{ExecutionContext, Future}
@@ -86,7 +86,7 @@ class BookServiceImpl(
   ): Future[Seq[AppBook]] = {
     for {
       booksWithPagesGreaterThan <- bookRepository.findAllWithPagesNumberGreaterThan(pagesNumberFrom)
-      authorsWithBooksPagesLessThan <- bookRepository
+      authorsWithBooksPagesLessThan <- authorRepository
         .findAuthorsWithBooksPagesLessThan(
           otherAuthorBookPagesNumberTo,
           booksWithPagesGreaterThan.flatMap(_.authors.toSeq).toSet

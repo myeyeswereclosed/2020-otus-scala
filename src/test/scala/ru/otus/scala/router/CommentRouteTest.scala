@@ -10,10 +10,9 @@ import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers._
 import play.api.libs.json.{Json, OFormat}
 import ru.otus.scala.model.CreateComment.{CommentCreated, CreateCommentRequest}
-import ru.otus.scala.model.CreateComment.CreateCommentRequest
-import ru.otus.scala.model.domain.{AppBook, BookComment, CommentText}
-import ru.otus.scala.model.domain.author.Author
-import ru.otus.scala.repository.impl.Comment
+import ru.otus.scala.model.domain.AppAuthor.Author
+import ru.otus.scala.model.domain.AppBook
+import ru.otus.scala.model.domain.BookComment.{BookComment, CommentText}
 import ru.otus.scala.service.comment.CommentService
 
 import scala.concurrent.Future

@@ -11,7 +11,7 @@ import doobie.free.connection.ConnectionIO
 import doobie.implicits._
 import doobie.postgres.implicits._
 import ru.otus.scala.model.domain.AppBook
-import ru.otus.scala.model.domain.author.{Author, Name}
+import ru.otus.scala.model.domain.AppAuthor.{Author, Name}
 import ru.otus.scala.repository.impl.doobie_quill.author.AuthorDoobieDao
 
 class AuthorDoobieDaoImpl extends AuthorDoobieDao {
@@ -107,7 +107,7 @@ class AuthorDoobieDaoImpl extends AuthorDoobieDao {
          from book b
          join book_author ba on b.id = ba.book_id
          join author a on ba.author_id = a.id
-         where pages_number < $pagesNumber and
+         where b.pages_number < $pagesNumber and
      """
 
     NonEmptyList
@@ -138,5 +138,13 @@ class AuthorDoobieDaoImpl extends AuthorDoobieDao {
   def deleteAll(): ConnectionIO[Int] =
     sql"""delete from book_author""".update.run *> sql"""delete from author""".update.run
 
-  override def findAllPublishedIn(year: Int): ConnectionIO[Seq[Author]] = ???
+  def findAllPublishedIn(year: Int): ConnectionIO[Seq[Author]] =
+    sql"""select distinct a.id, a.first_name, a.last_name
+       from book b
+       join book_author ba on b.id = ba.book_id
+       join author a on ba.author_id = a.id
+       where b.year_of_publishing = $year
+   """
+      .query[Author]
+      .to[Seq]
 }
