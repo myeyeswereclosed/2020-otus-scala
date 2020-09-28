@@ -12,7 +12,7 @@ import ru.otus.scala.service.author.AuthorService
 class AuthorRouter(service: AuthorService) extends Router {
   implicit lazy val authorFormat: OFormat[Author] = Json.format
 
-  def route: Route = pathPrefix("authors") { publishedIn ~ commentedMoreThan }
+  def route: Route = pathPrefix("authors") { publishedIn }
 
   private def publishedIn: Route =
     (get & parameter("publishedIn".as[Int])) {
@@ -20,10 +20,5 @@ class AuthorRouter(service: AuthorService) extends Router {
         onSuccess(service.getAllPublishedIn(AuthorsByYearOfPublishingRequest(year))) {
           response => complete(response.authors)
         }
-    }
-
-  private def commentedMoreThan: Route =
-    (get & parameter("commentedMoreThan".as[Int])) {
-      commentsNumber => complete(service.getAllCommentedMoreThan(commentsNumber))
     }
 }

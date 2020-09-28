@@ -24,29 +24,13 @@ class AuthorServiceImplTest extends AnyFreeSpec with MockFactory with ScalaFutur
       val author = Author(Some(UUID.randomUUID()), "Some", "Author")
 
       val authorRepository = mock[AuthorRepository]
-      val commentRepository = stub[CommentRepository]
 
       (authorRepository.findPublishedIn _).expects(year).returns(Future.successful(Seq(author)))
 
-      val service = new AuthorServiceImpl(authorRepository, commentRepository)
+      val service = new AuthorServiceImpl(authorRepository)
 
       service.getAllPublishedIn(AuthorsByYearOfPublishingRequest(year)).futureValue shouldBe
         AuthorsByYearOfPublishingResponse(Seq(author))
-    }
-
-    "getAllCommentedMoreThan" in {
-      val commentsNumber = 10
-
-      val author = Author(Some(UUID.randomUUID()), "Some", "Author")
-
-      val authorRepository = stub[AuthorRepository]
-      val commentRepository = mock[CommentRepository]
-
-      (commentRepository.findAuthorsCommentedMoreThan _).expects(commentsNumber).returns(Seq(author))
-
-      val service = new AuthorServiceImpl(authorRepository, commentRepository)
-
-      service.getAllCommentedMoreThan(commentsNumber) shouldBe Seq(author)
     }
   }
 }

@@ -21,18 +21,6 @@ class CommentMapRepository extends CommentRepository {
     Future.successful(newComment)
   }
 
-  def findAuthorsCommentedMoreThan(times: Int): Seq[Author] =
-    comments
-      .values
-      .groupBy(_.book)
-      .filter {
-        case (_, comments) => comments.size > times
-      }
-      .keys
-      .flatMap(_.authors)
-      .toSeq
-      .distinct
-
   def deleteAll(): Future[Int] = {
     val size = comments.size
 

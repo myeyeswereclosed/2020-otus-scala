@@ -85,7 +85,7 @@ object DoobieMain {
 
     val bookRouter = new BookRouter(new BookServiceImpl(bookRepository, authorRepository))
     val commentRouter = new CommentRouter(new CommentServiceImpl(bookRepository, commentRepository))
-    val authorRouter = new AuthorRouter(new AuthorServiceImpl(authorRepository, commentRepository))
+    val authorRouter = new AuthorRouter(new AuthorServiceImpl(authorRepository))
 
     new AppRouter(Seq(bookRouter, authorRouter, commentRouter))
   }

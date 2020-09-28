@@ -8,6 +8,4 @@ import scala.concurrent.Future
 
 trait AuthorService {
   def getAllPublishedIn(request: AuthorsByYearOfPublishingRequest): Future[AuthorsByYearOfPublishingResponse]
-
-  def getAllCommentedMoreThan(commentsNumber: Int): Seq[Author]
 }

@@ -39,22 +39,5 @@ class AuthorRouterTest extends AnyFreeSpec with ScalatestRouteTest with MockFact
         status shouldBe StatusCodes.OK
       }
     }
-
-    "authors commented more than" in {
-      val commentsNumber = 5
-
-      val service = mock[AuthorService]
-      val router = new AuthorRouter(service)
-
-      (service.getAllCommentedMoreThan _)
-        .expects(commentsNumber)
-        .returns(Seq(author))
-
-      Get(s"/authors?commentedMoreThan=$commentsNumber") ~> router.route ~> check {
-        handled shouldBe true
-        responseAs[Seq[Author]] shouldBe Seq(author)
-        status shouldBe StatusCodes.OK
-      }
-    }
   }
 }
